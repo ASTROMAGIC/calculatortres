@@ -58,7 +58,7 @@
 
 .keys {
     background-color: #292D36;
-    pacding: 1.5rem; 
+    padding: 1.5rem; 
     border-radius: 1.5rem 1.5rem 0 0;
     display: grid; 
     grid-template-columns: repeat(4, 1fr);
@@ -74,5 +74,31 @@
     display: block;
     height: 0; 
     padding-top: 100%; 
-    background-color: ;
+    background-color: #262933;
+    border-radius: 1rem;
+    transition: .2s; 
+    user-select: none;
+}
+
+.keys .key span{
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+
+    font-size: 2rem; 
+    font-weight: 700;
+    color: #FFF;
+}
+
+.keys .key:hover {
+    box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.2rem);
+}
+
+.keys .key.operator span{
+    color: #EB6666;
+}
+
+.keys .key.action span{
+    color: #26FED7;
 }
