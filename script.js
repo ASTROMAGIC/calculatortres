@@ -1,13 +1,13 @@
 const keys = document.querySelectorAll('.key');
 const display_input = document.querySelector('.display .input');
-const display_output = document.querySelector('.display_output');
+const display_output = document.querySelector('.display .output');
 
 let input = "";
 
 for (let key of keys) {
     const value = key.dataset.key;
 
-    key.addEventListener('click', () =>{
+    key.addEventListener('click', () => {
         if(value == "clear") {
             input = "";
             display_input.innerHTML = "";
@@ -16,14 +16,15 @@ for (let key of keys) {
             input = input.slice(0, -1);
             display_input.innerHTML = cleanInput(input);
         } else if (value == "=") {
-            let result = eval(input);
+            let result = eval(prepareInput(input));
 
             display_output.innerHTML = cleanOutput(result);
         } else if (value == "brackets") {
             if (
                 input.indexOf("(") == -1 || 
                 input.indexOf("(") != -1 && 
-                input.indexOf(")") != -1 && input.lastIndexOf("(") < input.lastIndexOf(")")
+                input.indexOf(")") != -1 && 
+                input.lastIndexOf("(") < input.lastIndexOf(")")
             ) {
                 input += "(";
             } else if (
@@ -41,19 +42,21 @@ for (let key of keys) {
             
             // this if statement means if there is no first bracket, or if we do have a starting bracket AND we have an outer bracket and the last index of it
         } else {
-            input += value;
+            if (validateInput(value)) {
+                input += value;
             display_input.innerHTML = cleanInput(input);
-        }
-    })
-}
+            }
+    }
 
+})
+}
 // this isn't the most readable but obviously you need some more intuitive javascript to make a calculator with increased functionality to work. is still full of bugs at this point
 
 function cleanInput(input) {
     let input_array = input.split("");
     let input_array_length = input_array.length; 
 
-    for(let i = o; i <input_array_length; i++) {
+    for(let i = 0; i <input_array_length; i++) {
         if (input_array[i] == "*") {
             input_array[i] = ` <span class="operator">x</span `;
         } else if (input_array[i] == "/") {
@@ -94,4 +97,36 @@ function cleanOutput (output) {
     }
 
     return output_array.join("");
+}
+
+
+function validateInput (value) {
+    let last_input = input.slice(-1);
+    let operators = ["+", "-", "*", "/"];
+
+    if (value == "." && last_input == ".") {
+        return false; 
+    }
+
+    if (operators.includes(value)) {
+        if (operators.includes(last_input)) {
+            return false; 
+        } else {
+            return true; 
+        }
+    }
+
+}
+
+
+function prepareInput (input) {
+    let input_array = input.split("");
+
+    for (let i = 0; i < input_array.length; i++) {
+        if (input_array[i] == "%") {
+            input_array[i] = "/100";
+        }
+    }
+
+    return input_array.join("");
 }
