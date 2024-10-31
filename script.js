@@ -14,11 +14,11 @@ for (let key of keys) {
             display_output.innerHTML ="";
         } else if(value == "backspace") {
             input = input.slice(0, -1);
-            display_input.innerHTML = input;
+            display_input.innerHTML = cleanInput(input);
         } else if (value == "=") {
             let result = eval(input);
 
-            display_output.innerHTML = result;
+            display_output.innerHTML = cleanOutput(result);
         } else if (value == "brackets") {
             if (
                 input.indexOf("(") == -1 || 
@@ -36,13 +36,13 @@ for (let key of keys) {
                 input += ")";
             } 
             
-            display_input.innerHTML = input;
+            display_input.innerHTML = cleanInput(input);
             
             
             // this if statement means if there is no first bracket, or if we do have a starting bracket AND we have an outer bracket and the last index of it
         } else {
             input += value;
-            display_input.innerHTML = input;
+            display_input.innerHTML = cleanInput(input);
         }
     })
 }
@@ -72,4 +72,26 @@ function cleanInput(input) {
 
     }
     return input_array.join("");
+}
+
+
+function cleanOutput (output) {
+    let output_string = output.toString();
+    let decimal = output_string.split(".")[1];
+    output_string = output_string.split(".")[0];
+
+    let output_array = output_string.split("");
+
+    if (output_array.length > 3) {
+        for (let i = output_array.length -3; i > 0; i -= 3) {
+            output_array.splice(i, 0, ",");
+        }
+    }
+
+    if (decimal) {
+        output_array.push(".");
+        output_array.push(decimal);
+    }
+
+    return output_array.join("");
 }
