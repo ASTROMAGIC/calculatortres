@@ -20,8 +20,16 @@ for (let key of keys) {
 
             display_output.innerHTML = result;
         } else if (value == "brackets") {
-            if (input.indexOf("(") == -1 || input.indexOf("(") != -1 &&input.indexOf(")") != -1 && input.lastIndexOf("(") < input.lastIndexOf(")")) {
+            if (
+                input.indexOf("(") == -1 || 
+                input.indexOf("(") != -1 && 
+                input.indexOf(")") != -1 && input.lastIndexOf("(") < input.lastIndexOf(")")
+            ) {
                 input += "(";
+            } else if (
+                input.indexOf("(") != -1 && 
+                input.indexOf(")") == -1) {
+                input -= ")";
             } // this if statement means if there is no first bracket, or if we do have a starting bracket AND we have an outer bracket and the last index of it
         }
     })
